@@ -1,0 +1,22 @@
+
+syntax = "proto3";
+
+package card;
+
+option go_package = "./pkg/card/pb";
+
+service CardService {
+  rpc AddLevel(AddLevelRequest) returns (AddLevelResponse) {}
+}
+
+// AddLevel
+
+message AddLevelRequest {
+  int32 level = 1;
+  int32 userId = 2;
+}
+
+message AddLevelResponse {
+  int32 status = 1;
+  string error = 2;
+}
