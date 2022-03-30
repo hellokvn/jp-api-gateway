@@ -2,9 +2,8 @@ package routes
 
 import (
 	"context"
-	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"github.com/hellokvn/jp-api-gateway/pkg/auth/pb"
 )
 
@@ -13,12 +12,11 @@ type LoginRequestBody struct {
 	Password string `json:"password"`
 }
 
-func Login(ctx *gin.Context, c pb.AuthServiceClient) {
+func Login(ctx *fiber.Ctx, c pb.AuthServiceClient) error {
 	body := LoginRequestBody{}
 
-	if err := ctx.BindJSON(&body); err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, err)
-		return
+	if err := ctx.BodyParser(&body); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
 
 	res, err := c.Login(context.Background(), &pb.LoginRequest{
@@ -27,9 +25,8 @@ func Login(ctx *gin.Context, c pb.AuthServiceClient) {
 	})
 
 	if err != nil {
-		ctx.AbortWithError(http.StatusBadGateway, err)
-		return
+		return fiber.NewError(fiber.StatusBadGateway, err.Error())
 	}
 
-	ctx.JSON(http.StatusCreated, &res)
+	return ctx.JSON(&res)
 }

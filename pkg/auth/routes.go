@@ -1,25 +1,25 @@
 package auth
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 	"github.com/hellokvn/jp-api-gateway/pkg/auth/routes"
 	"github.com/hellokvn/jp-api-gateway/pkg/common/config"
 )
 
-func RegisterRoutes(r *gin.Engine, c config.Config) {
+func RegisterRoutes(app *fiber.App, c config.Config) {
 	svc := &ServiceClient{
 		Client: InitServiceClient(&c),
 	}
 
-	routes := r.Group("/auth")
-	routes.POST("/register", svc.Register)
-	routes.POST("/login", svc.Login)
+	r := app.Group("/auth")
+	r.Post("/register", svc.Register)
+	r.Post("/login", svc.Login)
 }
 
-func (c *ServiceClient) Register(ctx *gin.Context) {
-	routes.Register(ctx, c.Client)
+func (svc *ServiceClient) Register(ctx *fiber.Ctx) error {
+	return routes.Register(ctx, svc.Client)
 }
 
-func (c *ServiceClient) Login(ctx *gin.Context) {
-	routes.Login(ctx, c.Client)
+func (svc *ServiceClient) Login(ctx *fiber.Ctx) error {
+	return routes.Login(ctx, svc.Client)
 }

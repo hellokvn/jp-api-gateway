@@ -1,7 +1,9 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"log"
+
+	"github.com/gofiber/fiber/v2"
 	"github.com/hellokvn/jp-api-gateway/pkg/common/config"
 )
 
@@ -9,12 +11,12 @@ func main() {
 	c, err := config.LoadConfig()
 
 	if err != nil {
-		panic(err)
+		log.Fatalln("Failed at config", err)
 	}
 
-	r := gin.Default()
+	app := fiber.New()
 
-	// auth.RegisterRoutes(r, c)
+	// books.RegisterRoutes(app)
 
-	r.Run(c.Port)
+	app.Listen(c.Port)
 }
