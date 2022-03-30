@@ -28,5 +28,5 @@ func Login(ctx *fiber.Ctx, c pb.AuthServiceClient) error {
 		return fiber.NewError(fiber.StatusBadGateway, err.Error())
 	}
 
-	return ctx.JSON(&res)
+	return ctx.Status(int(res.Status)).JSON(&res)
 }

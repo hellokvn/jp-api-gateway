@@ -6,7 +6,7 @@ import (
 	"github.com/hellokvn/jp-api-gateway/pkg/common/config"
 )
 
-func RegisterRoutes(app *fiber.App, c config.Config) {
+func RegisterRoutes(app *fiber.App, c config.Config) *ServiceClient {
 	svc := &ServiceClient{
 		Client: InitServiceClient(&c),
 	}
@@ -14,6 +14,8 @@ func RegisterRoutes(app *fiber.App, c config.Config) {
 	r := app.Group("/auth")
 	r.Post("/register", svc.Register)
 	r.Post("/login", svc.Login)
+
+	return svc
 }
 
 func (svc *ServiceClient) Register(ctx *fiber.Ctx) error {
