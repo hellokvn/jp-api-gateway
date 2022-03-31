@@ -5,8 +5,8 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/hellokvn/jp-api-gateway/pkg/auth"
-	"github.com/hellokvn/jp-api-gateway/pkg/card"
 	"github.com/hellokvn/jp-api-gateway/pkg/common/config"
+	"github.com/hellokvn/jp-api-gateway/pkg/wanikani"
 )
 
 func main() {
@@ -19,7 +19,7 @@ func main() {
 	app := fiber.New()
 
 	authSvc := auth.RegisterRoutes(app, c)
-	card.RegisterRoutes(app, c, authSvc)
+	wanikani.RegisterRoutes(app, c, authSvc)
 
 	app.Listen(c.Port)
 }

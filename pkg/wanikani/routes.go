@@ -1,10 +1,10 @@
-package card
+package wanikani
 
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/hellokvn/jp-api-gateway/pkg/auth"
-	"github.com/hellokvn/jp-api-gateway/pkg/card/routes"
 	"github.com/hellokvn/jp-api-gateway/pkg/common/config"
+	"github.com/hellokvn/jp-api-gateway/pkg/wanikani/routes"
 )
 
 func RegisterRoutes(app *fiber.App, c config.Config, authSvc *auth.ServiceClient) {
@@ -14,11 +14,11 @@ func RegisterRoutes(app *fiber.App, c config.Config, authSvc *auth.ServiceClient
 		Client: InitServiceClient(&c),
 	}
 
-	r := app.Group("/card")
+	r := app.Group("/wanikani")
 	r.Use(a.AuthRequired)
-	r.Post("/level", svc.AddLevel)
+	r.Post("/find", svc.Find)
 }
 
-func (svc *ServiceClient) AddLevel(ctx *fiber.Ctx) error {
-	return routes.AddLevel(ctx, svc.Client)
+func (svc *ServiceClient) Find(ctx *fiber.Ctx) error {
+	return routes.Find(ctx, svc.Client)
 }
