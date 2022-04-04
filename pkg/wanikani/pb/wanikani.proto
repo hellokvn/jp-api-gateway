@@ -9,16 +9,15 @@ service WanikaniService {
   rpc Find(FindRequest) returns (FindResponse) {}
 }
 
-// AddLevel
+// Card
 
 message Card {
-  int32 id = 1;
-  int32 wanikaniId = 2;
-  string type = 3;
-  string characters = 4;
-  repeated string meanings = 5;
-  repeated string readings = 6;
-  string audio = 7;
+  int32 wanikaniId = 1;
+  string type = 2;
+  string characters = 3;
+  bool isReading = 4;
+  repeated string solutions = 5;
+  string audio = 6;
 }
 
 message FindRequest {
